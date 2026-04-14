@@ -291,3 +291,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
 });
+
+// ── Mobile Navigation ──
+function toggleMobileNav() {
+  const navLinks = document.querySelector('.nav-links');
+  if (!navLinks) return;
+  
+  let backdrop = document.querySelector('.mobile-nav-backdrop');
+  if (!backdrop) {
+    backdrop = document.createElement('div');
+    backdrop.className = 'mobile-nav-backdrop';
+    backdrop.onclick = toggleMobileNav;
+    document.body.appendChild(backdrop);
+  }
+  
+  const isOpen = navLinks.classList.toggle('open');
+  if (isOpen) {
+    backdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  } else {
+    backdrop.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
