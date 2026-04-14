@@ -1996,6 +1996,92 @@ footer {
   .similar-grid {
     grid-template-columns: 1fr 1fr;
   }
+
+  /* Added Responsive Styles */
+  .login-split {
+    flex-direction: column;
+    margin: 0;
+    border-radius: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .login-image-side {
+    display: none;
+  }
+
+  .login-form-side {
+    padding: 40px 24px;
+    height: auto;
+    flex: none;
+  }
+
+  .account-container {
+    padding: 40px 20px;
+  }
+
+  .account-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .account-header-text p {
+    margin: 0 auto;
+  }
+
+  .account-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .order-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .account-footer-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .footer-grid-account {
+    flex-direction: column;
+  }
+
+  .page-hero,
+  .festival-hero {
+    padding: 100px 20px 40px;
+  }
+
+  .all-products-section,
+  .festival-products-section {
+    padding: 40px 20px 60px;
+  }
+
+  .all-products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .filter-bar-inner {
+    padding: 12px 20px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .filter-btn {
+    white-space: nowrap;
+  }
+
+  /* Fix general mobile overflow padding issues */
+  body {
+    overflow-x: hidden;
+  }
 }
 
 /* ── Modal Overlay ── */

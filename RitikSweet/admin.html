@@ -612,6 +612,39 @@
             background: rgba(192, 105, 122, 0.1);
             color: #9b3a50;
             border: 1px solid rgba(192, 105, 122, 0.2);
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+                transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+            .admin-sidebar.open {
+                transform: translateX(0);
+            }
+            .admin-main {
+                margin-left: 0;
+            }
+            .admin-topbar {
+                padding: 16px 20px;
+            }
+            .admin-stats {
+                grid-template-columns: 1fr;
+            }
+            .admin-content {
+                padding: 24px 16px;
+            }
+            #products-container, #testimonials-container {
+                overflow-x: auto;
+            }
+            .prod-table {
+                min-width: 650px;
+            }
+            .slide-over {
+                width: 100vw;
+            }
+            .mobile-menu-btn {
+                display: flex !important;
+            }
         }
     </style>
 </head>
@@ -640,7 +673,10 @@
     <!-- Main -->
     <div class="admin-main">
         <header class="admin-topbar">
-            <span class="topbar-title">Product Management</span>
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <button class="mobile-menu-btn" onclick="document.querySelector('.admin-sidebar').classList.toggle('open')" style="display: none; background: none; border: none; font-size: 20px; cursor: pointer; color: #3b2314;">☰</button>
+                <span class="topbar-title">Product Management</span>
+            </div>
             <span class="topbar-user" id="topbar-user">Loading…</span>
         </header>
 
@@ -1023,6 +1059,7 @@
         function showSection(s) {
             document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
             event.currentTarget.classList.add('active');
+            document.querySelector('.admin-sidebar').classList.remove('open');
             document.getElementById('products-section').style.display = s === 'products' ? 'block' : 'none';
             document.getElementById('festival-section').style.display = s === 'festival' ? 'block' : 'none';
             document.getElementById('testimonials-section').style.display = s === 'testimonials' ? 'block' : 'none';
