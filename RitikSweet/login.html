@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In – Bhoop Singh Sweet House</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="login-body">
+
+    <div class="login-split">
+        <!-- ── Left: Image ── -->
+        <div class="login-image-side">
+            <img src="ladoo_motichoor_1775999772667.png" alt="Traditional Indian Sweets">
+            <div class="login-image-overlay">
+                <div class="overlay-line"></div>
+                <h2>Preserving the Art<br><em>of Confectionery</em></h2>
+                <p>Bhoop Singh Sweet House since 1984. Every recipe is a piece of history, crafted with hand-churned
+                    ghee and the finest saffron.</p>
+            </div>
+        </div>
+
+        <!-- ── Right: Form ── -->
+        <div class="login-form-side">
+            <div class="login-header">
+                <a href="index.html" class="nav-brand login-brand-font">Bhoop Singh Sweet House</a>
+                <a href="index.html" class="back-link">← Back to Shop</a>
+            </div>
+
+            <div class="login-form-container">
+                <div id="auth-msg" class="auth-message-box" style="display:none;"></div>
+
+                <!-- Role Selector -->
+                <div class="role-selector">
+                    <button class="role-btn active" id="role-customer" onclick="selectRole('customer')">
+                        <span class="role-icon">👤</span>
+                        <span>Customer</span>
+                    </button>
+                    <button class="role-btn" id="role-admin" onclick="selectRole('admin')">
+                        <span class="role-icon">🔑</span>
+                        <span>Admin</span>
+                    </button>
+                </div>
+                <div id="admin-code-group" class="form-group" style="display:none; margin-bottom:8px;">
+                    <label>ADMIN VERIFICATION CODE</label>
+                    <input type="password" id="admin-code" placeholder="Enter admin code" autocomplete="off">
+                </div>
+
+                <!-- Tabs -->
+                <div class="auth-tabs">
+                    <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Login</button>
+                    <button class="auth-tab" id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
+                </div>
+
+                <!-- ── LOGIN ── -->
+                <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label>EMAIL ADDRESS</label>
+                        <input type="email" id="login-email" placeholder="you@email.com" autocomplete="email" required>
+                    </div>
+                    <div class="form-group" id="pw-group">
+                        <label>PASSWORD</label>
+                        <input type="password" id="login-password" placeholder="Enter your password"
+                            autocomplete="current-password">
+                    </div>
+                    <div class="form-row-between">
+                        <label class="remember-me"><input type="checkbox" id="keep-in"> Keep me signed in</label>
+                        <a href="#" class="forgot-link" id="forgot-link" onclick="toggleForgot(event)">Forgot
+                            Password?</a>
+                    </div>
+                    <button type="submit" class="btn-auth" id="login-btn">SIGN IN SECURELY 🔒</button>
+                </form>
+
+                <div class="social-gateway" id="or-divider"><span>OR CONTINUE WITH</span></div>
+                <div class="social-buttons" id="alt-btns">
+                    <button type="button" class="btn-social" onclick="sendMagicLink()">✉ Magic Link to Email</button>
+                    <button type="button" class="btn-social" onclick="togglePhoneOTP()">📱 OTP on Phone</button>
+                </div>
+
+                <!-- Phone OTP (hidden) -->
+                <div id="phone-otp-section" style="display:none; margin-top:20px;">
+                    <div class="form-group">
+                        <label>MOBILE NUMBER</label>
+                        <input type="tel" id="otp-phone" placeholder="+91 98765 43210">
+                    </div>
+                    <button type="button" class="btn-auth" onclick="sendPhoneOTP()">SEND OTP 📱</button>
+                    <div id="otp-verify" style="display:none; margin-top:16px;">
+                        <div class="form-group">
+                            <label>ENTER OTP</label>
+                            <input type="text" id="otp-code" placeholder="6-digit OTP" maxlength="6"
+                                inputmode="numeric">
+                        </div>
+                        <button type="button" class="btn-auth" onclick="verifyOTP()">VERIFY OTP ✓</button>
+                    </div>
+                </div>
+
+                <!-- ── SIGN UP ── -->
+                <form id="signup-form" class="auth-form" style="display:none;" onsubmit="handleSignup(event)">
+                    <div class="form-group">
+                        <label>FULL NAME</label>
+                        <input type="text" id="su-name" placeholder="e.g. Priya Sharma" autocomplete="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>EMAIL ADDRESS</label>
+                        <input type="email" id="su-email" placeholder="you@email.com" autocomplete="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>PHONE NUMBER <span
+                                style="color:var(--text-light);font-weight:400;">(optional)</span></label>
+                        <input type="tel" id="su-phone" placeholder="+91 98765 43210" autocomplete="tel">
+                    </div>
+                    <div class="form-group">
+                        <label>CREATE PASSWORD <span style="color:var(--text-light);font-weight:400;">(min 8
+                                chars)</span></label>
+                        <input type="password" id="su-password" placeholder="Minimum 8 characters" minlength="8"
+                            autocomplete="new-password" required>
+                    </div>
+                    <button type="submit" class="btn-auth" id="signup-btn">CREATE MY ACCOUNT 🔒</button>
+                </form>
+
+                <p id="switch-hint" style="text-align:center;font-size:12px;color:var(--text-light);margin-top:20px;">
+                    New here? <a href="#" onclick="switchTab('signup');return false;"
+                        style="color:var(--brown-mid);font-weight:600;text-decoration:none;">Create an account →</a>
+                </p>
+            </div>
+
+            <div class="login-footer">
+                <span>© 2026 BHOOP SINGH SWEET HOUSE</span>
+                <div class="login-footer-links">
+                    <a href="#">PRIVACY POLICY</a>
+                    <a href="#">TERMS OF USE</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="supabase-config.js"></script>
+    <script>
+        // Redirect if already logged in
+        (async () => {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) return;
+            // Check role and redirect accordingly
+            const { data: p } = await supabaseClient.from('profiles').select('role').eq('id', session.user.id).single();
+            // Admins go to admin panel; customers go to home page
+            window.location.href = p?.role === 'admin' ? 'admin.html' : 'index.html';
+        })();
+
+        /* ── helpers ── */
+        function msg(text, type = 'error') {
+            const el = document.getElementById('auth-msg');
+            el.textContent = text; el.className = 'auth-message-box ' + type; el.style.display = 'block';
+            if (type === 'success') el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        function clearMsg() { const el = document.getElementById('auth-msg'); el.style.display = 'none'; }
+        function setBtnLoading(id, loading, originalText) {
+            const b = document.getElementById(id); b.disabled = loading;
+            b.textContent = loading ? 'Please wait…' : originalText;
+        }
+
+        /* ── Role Selector ── */
+        let selectedRole = 'customer';
+        const ADMIN_CODE = 'Ritik123';
+
+        function selectRole(role) {
+            selectedRole = role;
+            document.getElementById('role-customer').classList.toggle('active', role === 'customer');
+            document.getElementById('role-admin').classList.toggle('active', role === 'admin');
+            document.getElementById('admin-code-group').style.display = role === 'admin' ? 'block' : 'none';
+            clearMsg();
+        }
+
+        /* ── Tab switching ── */
+        function switchTab(tab) {
+            const isLogin = tab === 'login';
+            document.getElementById('tab-login').classList.toggle('active', isLogin);
+            document.getElementById('tab-signup').classList.toggle('active', !isLogin);
+            document.getElementById('login-form').style.display = isLogin ? 'flex' : 'none';
+            document.getElementById('signup-form').style.display = isLogin ? 'none' : 'flex';
+            document.getElementById('or-divider').style.display = isLogin ? 'block' : 'none';
+            document.getElementById('alt-btns').style.display = isLogin ? 'flex' : 'none';
+            document.getElementById('phone-otp-section').style.display = 'none';
+            document.getElementById('switch-hint').innerHTML = isLogin
+                ? `New here? <a href="#" onclick="switchTab('signup');return false;" style="color:var(--brown-mid);font-weight:600;text-decoration:none;">Create an account →</a>`
+                : `Already registered? <a href="#" onclick="switchTab('login');return false;" style="color:var(--brown-mid);font-weight:600;text-decoration:none;">Sign in →</a>`;
+            clearMsg(); resetForgot();
+        }
+
+        /* ── Forgot Password ── */
+        let forgotMode = false;
+        function toggleForgot(e) {
+            e.preventDefault(); forgotMode = !forgotMode;
+            const pwGroup = document.getElementById('pw-group');
+            const btn = document.getElementById('login-btn');
+            const link = document.getElementById('forgot-link');
+            if (forgotMode) {
+                pwGroup.style.display = 'none';
+                btn.textContent = 'SEND RESET LINK 📧'; btn.dataset.mode = 'reset';
+                link.textContent = '← Back to Sign In';
+                msg("Enter your email above — we'll send a password reset link.", 'info');
+            } else { resetForgot(); clearMsg(); }
+        }
+        function resetForgot() {
+            forgotMode = false;
+            const pwGroup = document.getElementById('pw-group');
+            const btn = document.getElementById('login-btn');
+            const link = document.getElementById('forgot-link');
+            if (pwGroup) pwGroup.style.display = 'block';
+            if (btn) { btn.textContent = 'SIGN IN SECURELY 🔒'; btn.dataset.mode = ''; }
+            if (link) link.textContent = 'Forgot Password?';
+        }
+
+        /* ── Login ── */
+        async function handleLogin(e) {
+            e.preventDefault(); clearMsg();
+            const email = document.getElementById('login-email').value.trim();
+            if (forgotMode) { await sendReset(email); return; }
+            // Admin code check
+            if (selectedRole === 'admin') {
+                const code = document.getElementById('admin-code').value;
+                if (code !== ADMIN_CODE) { msg('❌ Incorrect admin code. Access denied.'); return; }
+            }
+            const password = document.getElementById('login-password').value;
+            setBtnLoading('login-btn', true, 'SIGN IN SECURELY 🔒');
+            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+            setBtnLoading('login-btn', false, 'SIGN IN SECURELY 🔒');
+            if (error) { msg(error.message.includes('Invalid') ? 'Incorrect email or password. Please try again.' : error.message); return; }
+            // Check DB role — never overwrite it here
+            const { data: profile } = await supabaseClient.from('profiles').select('role').eq('id', data.user.id).single();
+            const dbRole = profile?.role || 'customer';
+            if (selectedRole === 'admin') {
+                if (dbRole !== 'admin') {
+                    await supabaseClient.auth.signOut();
+                    msg('❌ This account does not have admin access.');
+                    return;
+                }
+                window.location.href = 'admin.html';
+            } else {
+                // Customers go to home page; admins are sent to admin panel even if they used customer tab
+                window.location.href = dbRole === 'admin' ? 'admin.html' : 'index.html';
+            }
+        }
+
+        async function sendReset(email) {
+            if (!email) { msg('Please enter your email address first.'); return; }
+            const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.origin + '/account.html'
+            });
+            if (error) { msg(error.message); return; }
+            msg('✅ Reset link sent! Check your inbox.', 'success');
+            resetForgot();
+        }
+
+        /* ── Magic Link ── */
+        async function sendMagicLink() {
+            const email = document.getElementById('login-email').value.trim();
+            if (!email) { msg('Please enter your email address above first.'); document.getElementById('login-email').focus(); return; }
+            clearMsg();
+            const { error } = await supabaseClient.auth.signInWithOtp({
+                email, options: { emailRedirectTo: window.location.origin + '/account.html' }
+            });
+            if (error) { msg(error.message); return; }
+            msg('✅ Magic link sent to ' + email + '! Click the link in your inbox to sign in.', 'success');
+        }
+
+        /* ── Phone OTP ── */
+        let phoneForOTP = '';
+        function togglePhoneOTP() {
+            const s = document.getElementById('phone-otp-section');
+            s.style.display = s.style.display === 'none' ? 'block' : 'none';
+        }
+        async function sendPhoneOTP() {
+            phoneForOTP = document.getElementById('otp-phone').value.trim();
+            if (!phoneForOTP) { msg('Enter your mobile number.'); return; }
+            clearMsg();
+            const { error } = await supabaseClient.auth.signInWithOtp({ phone: phoneForOTP });
+            if (error) { msg(error.message); return; }
+            document.getElementById('otp-verify').style.display = 'block';
+            msg('✅ OTP sent to ' + phoneForOTP, 'success');
+        }
+        async function verifyOTP() {
+            const token = document.getElementById('otp-code').value.trim();
+            const { error } = await supabaseClient.auth.verifyOtp({ phone: phoneForOTP, token, type: 'sms' });
+            if (error) { msg(error.message); return; }
+            window.location.href = 'account.html';
+        }
+
+        /* ── Sign Up ── */
+        async function handleSignup(e) {
+            e.preventDefault(); clearMsg();
+            const name = document.getElementById('su-name').value.trim();
+            const email = document.getElementById('su-email').value.trim();
+            const phone = document.getElementById('su-phone').value.trim();
+            const password = document.getElementById('su-password').value;
+            setBtnLoading('signup-btn', true, 'CREATE MY ACCOUNT 🔒');
+            const { data, error } = await supabaseClient.auth.signUp({
+                email, password,
+                options: {
+                    data: { full_name: name, phone },
+                    emailRedirectTo: window.location.origin + '/account.html'
+                }
+            });
+            setBtnLoading('signup-btn', false, 'CREATE MY ACCOUNT 🔒');
+            if (error) { msg(error.message); return; }
+            // Always set role to 'customer' — can only be changed manually via Supabase dashboard
+            if (data?.user) {
+                await supabaseClient.from('profiles').upsert({
+                    id: data.user.id,
+                    full_name: name,
+                    phone: phone || null,
+                    role: 'customer'
+                });
+            }
+            msg('✅ Account created! Please check your email to verify your account, then sign in.', 'success');
+            document.getElementById('signup-form').reset();
+        }
+    </script>
+</body>
+
+</html>

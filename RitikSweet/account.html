@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Account – Bhoop Singh Sweet House</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="account-body">
+
+    <!-- ── Edit Profile Modal ── -->
+    <div id="modal-profile" class="modal-overlay" onclick="closeIfOutside(event,'modal-profile')">
+        <div class="modal-box">
+            <h3 class="modal-title">Edit Personal Details</h3>
+            <div class="form-group" style="margin-bottom:18px;"><label>FULL NAME</label><input type="text"
+                    id="edit-name" placeholder="Your full name"></div>
+            <div class="form-group" style="margin-bottom:18px;"><label>PHONE NUMBER</label><input type="tel"
+                    id="edit-phone" placeholder="+91 98765 43210"></div>
+            <div id="modal-profile-msg" class="auth-message-box" style="display:none;"></div>
+            <div style="display:flex;gap:12px;margin-top:24px;">
+                <button class="btn-primary" id="save-profile-btn" onclick="saveProfile()">Save Changes</button>
+                <button class="btn-outline" onclick="closeModal('modal-profile')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Add Address Modal ── -->
+    <div id="modal-address" class="modal-overlay" onclick="closeIfOutside(event,'modal-address')">
+        <div class="modal-box">
+            <h3 class="modal-title">Add New Address</h3>
+            <div class="form-group" style="margin-bottom:14px;"><label>LABEL (e.g. Home, Office)</label><input
+                    type="text" id="a-label" placeholder="Home"></div>
+            <div class="form-group" style="margin-bottom:14px;"><label>STREET / FLAT / BUILDING</label><input
+                    type="text" id="a-street" placeholder="e.g. B-47, Sushant Lok Phase 1"></div>
+            <div class="form-group" style="margin-bottom:14px;"><label>CITY</label><input type="text" id="a-city"
+                    placeholder="Gurugram"></div>
+            <div class="form-group" style="margin-bottom:14px;"><label>STATE</label><input type="text" id="a-state"
+                    placeholder="Haryana"></div>
+            <div class="form-group" style="margin-bottom:14px;"><label>PINCODE</label><input type="text" id="a-pin"
+                    placeholder="122002" inputmode="numeric"></div>
+            <label class="remember-me" style="margin-bottom:18px;gap:8px;font-size:13px;color:var(--text-muted);">
+                <input type="checkbox" id="a-default"> Set as default address
+            </label>
+            <div id="modal-addr-msg" class="auth-message-box" style="display:none;"></div>
+            <div style="display:flex;gap:12px;margin-top:8px;">
+                <button class="btn-primary" id="save-addr-btn" onclick="saveAddress()">Save Address</button>
+                <button class="btn-outline" onclick="closeModal('modal-address')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav id="navbar" class="account-nav">
+        <a href="index.html" class="nav-brand">Bhoop Singh Sweet House</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="festival.html">Festival Special</a></li>
+            <li><a href="account.html#orders">Orders</a></li>
+            <li><a href="#about">About Us</a></li>
+        </ul>
+        <div style="display:flex;gap:24px;position:relative;">
+            <a href="account.html" class="nav-icon user-icon active" style="text-decoration:none;" title="Account">👤</a>
+        </div>
+    </nav>
+
+    <div class="account-container">
+        <!-- Header -->
+        <div class="account-header">
+            <div class="account-header-text">
+                <h1>Your Account</h1>
+                <p id="welcome-msg" style="color:var(--text-muted);font-size:15px;max-width:500px;line-height:1.6;">
+                    Loading your account…</p>
+            </div>
+            <div class="account-avatar">
+                <img id="avatar-img" src="https://ui-avatars.com/api/?name=U&background=a0694e&color=fff&size=80"
+                    alt="Profile">
+            </div>
+        </div>
+
+        <div class="account-grid">
+            <!-- Left -->
+            <div class="account-sidebar">
+                <div class="account-card">
+                    <div class="card-header-flex">
+                        <h3>Personal Details</h3>
+                        <span class="edit-icon" onclick="openEditModal()" title="Edit">✏️</span>
+                    </div>
+                    <div class="detail-group"><label>FULL NAME</label>
+                        <p id="d-name">—</p>
+                    </div>
+                    <div class="detail-group"><label>EMAIL ADDRESS</label>
+                        <p id="d-email">—</p>
+                    </div>
+                    <div class="detail-group"><label>CONTACT NUMBER</label>
+                        <p id="d-phone">—</p>
+                    </div>
+                </div>
+
+                <div class="account-card card-transparent">
+                    <div class="card-header-flex">
+                        <h3 style="font-size:20px;font-style:italic;">Saved Addresses</h3>
+                        <a href="#" class="add-new-btn" onclick="openAddressModal();return false;">+ ADD NEW</a>
+                    </div>
+                    <div id="addresses-list">
+                        <p style="color:var(--text-light);font-size:13px;">Loading…</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Orders -->
+            <div class="account-main">
+                <div class="account-card card-large-bg">
+                    <h3 class="history-title">Your Order History</h3>
+                    <div id="orders-list">
+                        <p style="color:var(--text-light);font-size:13px;padding:24px 0;">Loading orders…</p>
+                    </div>
+                    <button class="btn-outline-full" id="load-more-btn" style="display:none;"
+                        onclick="loadMoreOrders()">LOAD OLDER ORDERS</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="account-footer-row">
+            <div class="member-since">
+                <p class="member-date" id="member-since">—</p>
+                <p class="member-thanks">Thank you for being a loyal patron of Bhoop Singh Sweet House.</p>
+            </div>
+            <button onclick="logout()" class="btn-logout">SECURE LOGOUT</button>
+        </div>
+    </div>
+
+    <footer id="about" class="account-footer">
+        <div class="footer-grid-account">
+            <div class="col-main">
+                <div class="footer-brand">Bhoop Singh Sweet House</div>
+                <p class="footer-desc">Handcrafting authentic Indian mithai with pure ingredients since 1984. Trusted by
+                    families across Gurugram for over four decades.</p>
+            </div>
+            <div class="col-links">
+                <h5>HERITAGE</h5>
+                <ul>
+                    <li><a href="#">About Our Heritage</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="col-links">
+                <h5>SERVICES</h5>
+                <ul>
+                    <li><a href="#">Shipping &amp; Returns</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="col-links">
+                <h5>LEGAL</h5>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-divider" style="margin-top:40px;margin-bottom:20px;"></div>
+        <div class="footer-bottom-account"><span>© 2026 Bhoop Singh Sweet House. Crafted with love &amp;
+                tradition.</span></div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="supabase-config.js"></script>
+    <script>
+        let currentUser = null;
+        let ordersOffset = 0;
+        const PAGE = 5;
+
+        // ── Boot ──
+        (async () => {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) { window.location.href = 'login.html'; return; }
+            // If the user is actually an admin, send them to the admin panel
+            const { data: p } = await supabaseClient.from('profiles').select('role').eq('id', session.user.id).single();
+            if (p?.role === 'admin') { window.location.href = 'admin.html'; return; }
+            currentUser = session.user;
+            loadProfile();
+            loadAddresses();
+            loadOrders(true);
+        })();
+
+        // ── Profile ──
+        async function loadProfile() {
+            const { data: p } = await supabaseClient.from('profiles').select('*').eq('id', currentUser.id).single();
+            const name = p?.full_name || '';
+            const first = name.split(' ')[0] || currentUser.email.split('@')[0];
+            document.getElementById('welcome-msg').textContent = `Welcome back, ${first}! Here you can manage your orders, saved addresses, and personal details.`;
+            document.getElementById('avatar-img').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'User')}&background=a0694e&color=fff&size=80`;
+            document.getElementById('d-name').textContent = name || '—  (click ✏️ to add)';
+            document.getElementById('d-email').textContent = currentUser.email;
+            document.getElementById('d-phone').textContent = p?.phone || '—  (click ✏️ to add)';
+            const joined = new Date(currentUser.created_at);
+            document.getElementById('member-since').textContent = 'MEMBER SINCE ' + joined.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' }).toUpperCase();
+        }
+
+        // ── Addresses ──
+        async function loadAddresses() {
+            const { data: list } = await supabaseClient.from('addresses').select('*').eq('user_id', currentUser.id).order('is_default', { ascending: false });
+            const c = document.getElementById('addresses-list');
+            if (!list || list.length === 0) {
+                c.innerHTML = `<p style="font-size:13px;color:var(--text-muted);">No saved addresses yet.<br><a href="#" onclick="openAddressModal();return false;" style="color:var(--brown-mid);font-weight:600;">+ Add your first address</a></p>`;
+                return;
+            }
+            c.innerHTML = list.map(a => `
+    <div class="address-item ${a.is_default ? 'active-address' : 'inactive-address'}" style="position:relative;">
+      <div class="address-header">
+        <h4>${a.label || 'Address'}</h4>
+        <div style="display:flex;gap:8px;align-items:center;">
+          ${a.is_default ? '<span class="badge-default">DEFAULT</span>' : ''}
+          <span style="cursor:pointer;font-size:13px;color:var(--text-light);" onclick="deleteAddress('${a.id}')">✕</span>
+        </div>
+      </div>
+      <p>${a.street || ''}${a.city ? '<br>' + a.city : ''}${a.state ? ', ' + a.state : ''}${a.pincode ? ' – ' + a.pincode : ''}<br>India</p>
+    </div>`).join('');
+        }
+
+        async function deleteAddress(id) {
+            if (!confirm('Remove this address?')) return;
+            await supabaseClient.from('addresses').delete().eq('id', id);
+            loadAddresses();
+        }
+
+        // ── Orders ──
+        function productImg(items) {
+            if (!items || !items.length) return 'gift_box_sweets_1775999865646.png';
+            const n = (items[0]?.name || '').toLowerCase();
+            if (n.includes('ladoo')) return 'ladoo_motichoor_1775999772667.png';
+            if (n.includes('barfi')) return 'assorted_barfi_1775999808049.png';
+            if (n.includes('peda')) return 'kesar_peda_1775999790945.png';
+            if (n.includes('gulab')) return 'gulab_jamun_1775999830157.png';
+            if (n.includes('rasgulla')) return 'rasgulla_bowl_1775999846520.png';
+            return 'gift_box_sweets_1775999865646.png';
+        }
+        const STATUS_MAP = {
+            placed: ['badge-transit', 'ORDER PLACED'],
+            processing: ['badge-transit', 'PROCESSING'],
+            out_for_delivery: ['badge-transit', 'OUT FOR DELIVERY'],
+            delivered: ['badge-delivered', 'DELIVERED'],
+            cancelled: ['badge-delivered', 'CANCELLED']
+        };
+
+        async function loadOrders(reset = false) {
+            if (reset) { ordersOffset = 0; document.getElementById('orders-list').innerHTML = ''; }
+            const { data: orders } = await supabaseClient.from('orders').select('*')
+                .eq('user_id', currentUser.id).order('placed_at', { ascending: false })
+                .range(ordersOffset, ordersOffset + PAGE - 1);
+
+            const container = document.getElementById('orders-list');
+            if (reset && (!orders || orders.length === 0)) {
+                container.innerHTML = `<p style="text-align:center;padding:40px 0;color:var(--text-muted);font-size:14px;">You haven't placed any orders yet.<br><a href="index.html" style="color:var(--brown-mid);font-weight:600;text-decoration:none;">Start shopping →</a></p>`;
+                document.getElementById('load-more-btn').style.display = 'none';
+                return;
+            }
+            orders.forEach(o => {
+                const items = Array.isArray(o.items) ? o.items : [];
+                const itemsText = items.map(i => `${i.name}${i.qty ? ' (' + i.qty + ')' : ''}`).join(', ') || 'Sweet order';
+                const [badgeClass, badgeLabel] = STATUS_MAP[o.status] || ['badge-transit', (o.status || 'PLACED').toUpperCase()];
+                const date = new Date(o.placed_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+                container.insertAdjacentHTML('beforeend', `
+      <div class="order-item">
+        <div class="order-img"><img src="${productImg(items)}" alt="Order" onerror="this.src='gift_box_sweets_1775999865646.png'"></div>
+        <div class="order-details">
+          <div class="order-header"><h4>${o.order_number || 'Order'}</h4><span class="${badgeClass}">${badgeLabel}</span></div>
+          <p class="order-date">Placed on ${date}</p>
+          <p class="order-items-text">${itemsText}</p>
+        </div>
+        <div class="order-price-action">
+          <div class="order-price">₹ ${Number(o.total_amount).toLocaleString('en-IN')}</div>
+          <a href="#" class="view-details-link">VIEW DETAILS</a>
+        </div>
+      </div>`);
+            });
+            ordersOffset += orders.length;
+            document.getElementById('load-more-btn').style.display = orders.length === PAGE ? 'block' : 'none';
+        }
+        function loadMoreOrders() { loadOrders(false); }
+
+        // ── Modals ──
+        function openEditModal() {
+            document.getElementById('edit-name').value = document.getElementById('d-name').textContent.replace('—  (click ✏️ to add)', '').trim();
+            document.getElementById('edit-phone').value = document.getElementById('d-phone').textContent.replace('—  (click ✏️ to add)', '').trim();
+            document.getElementById('modal-profile').style.display = 'flex';
+        }
+        function openAddressModal() { document.getElementById('modal-address').style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function closeIfOutside(e, id) { if (e.target.id === id) closeModal(id); }
+
+        async function saveProfile() {
+            const name = document.getElementById('edit-name').value.trim();
+            const phone = document.getElementById('edit-phone').value.trim();
+            const btn = document.getElementById('save-profile-btn'); btn.disabled = true; btn.textContent = 'Saving…';
+            const { error } = await supabaseClient.from('profiles').upsert({ id: currentUser.id, full_name: name, phone });
+            btn.disabled = false; btn.textContent = 'Save Changes';
+            if (error) { document.getElementById('modal-profile-msg').textContent = error.message; document.getElementById('modal-profile-msg').className = 'auth-message-box error'; document.getElementById('modal-profile-msg').style.display = 'block'; return; }
+            closeModal('modal-profile');
+            loadProfile();
+        }
+
+        async function saveAddress() {
+            const payload = {
+                user_id: currentUser.id,
+                label: document.getElementById('a-label').value.trim() || 'Address',
+                street: document.getElementById('a-street').value.trim(),
+                city: document.getElementById('a-city').value.trim(),
+                state: document.getElementById('a-state').value.trim(),
+                pincode: document.getElementById('a-pin').value.trim(),
+                is_default: document.getElementById('a-default').checked
+            };
+            if (!payload.street || !payload.city) { document.getElementById('modal-addr-msg').textContent = 'Street and city are required.'; document.getElementById('modal-addr-msg').className = 'auth-message-box error'; document.getElementById('modal-addr-msg').style.display = 'block'; return; }
+            const btn = document.getElementById('save-addr-btn'); btn.disabled = true; btn.textContent = 'Saving…';
+            if (payload.is_default) await supabaseClient.from('addresses').update({ is_default: false }).eq('user_id', currentUser.id);
+            const { error } = await supabaseClient.from('addresses').insert(payload);
+            btn.disabled = false; btn.textContent = 'Save Address';
+            if (error) { document.getElementById('modal-addr-msg').textContent = error.message; document.getElementById('modal-addr-msg').className = 'auth-message-box error'; document.getElementById('modal-addr-msg').style.display = 'block'; return; }
+            document.getElementById('modal-address').style.display = 'none';
+            document.getElementById('modal-address').querySelectorAll('input').forEach(i => i.value = '');
+            loadAddresses();
+        }
+
+        async function logout() {
+            await supabaseClient.auth.signOut();
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+
+</html>

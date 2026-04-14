@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Festival Special – Bhoop Singh Sweet House</title>
+  <meta name="description" content="Shop our curated Festival Special collection — handcrafted sweets selected by Bhoop Singh Sweet House for every festive occasion." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="preloader-logo">🍬 BSSH</div>
+    <div class="preloader-bar">
+      <div class="preloader-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav id="navbar">
+    <button class="nav-back-btn" onclick="history.length > 1 ? history.back() : window.location.href='index.html'" title="Go back">← Back</button>
+    <ul class="nav-links" role="navigation">
+      <li id="nav-home-li"><a href="index.html" id="nav-home">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="festival.html" class="active">Festival Special</a></li>
+      <li><a href="account.html#orders" id="nav-orders">Orders</a></li>
+      <li><a href="#about" id="nav-about">About Us</a></li>
+    </ul>
+    <a href="index.html" class="nav-brand">Bhoop Singh Sweet House</a>
+    <div style="display:flex;gap:24px;position:relative;">
+      <a href="#" id="nav-profile-btn" class="nav-icon user-icon" style="text-decoration:none;" title="Account" onclick="handleProfileNav(event)">👤</a>
+    </div>
+  </nav>
+
+  <!-- Festival Hero Banner -->
+  <div class="festival-hero" id="festival-hero">
+    <div class="festival-hero-bg"></div>
+    <div class="festival-hero-content">
+      <div class="festival-diya-row">🪔 🎉 🪔</div>
+      <p class="section-label reveal" style="color:rgba(255,255,255,0.7);">Curated Collection</p>
+      <h1 class="festival-title reveal delay-1" id="festival-banner-title">Festival Special</h1>
+      <p class="festival-sub reveal delay-2">Handpicked by our Master Confectioner for the season's most celebrated occasions.</p>
+    </div>
+  </div>
+
+  <!-- Products Grid -->
+  <section class="all-products-section festival-products-section">
+    <div id="festival-products-grid" class="all-products-grid">
+      <!-- Skeleton loaders -->
+      <div class="product-skeleton"></div>
+      <div class="product-skeleton"></div>
+      <div class="product-skeleton"></div>
+      <div class="product-skeleton"></div>
+    </div>
+    <!-- Empty state -->
+    <div id="festival-empty" style="display:none; text-align:center; padding:100px 24px;">
+      <div style="font-size:56px;margin-bottom:20px;">🪔</div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:26px;color:var(--brown-dark);margin-bottom:12px;">No Festival Specials Yet</h3>
+      <p style="color:var(--text-muted);font-size:15px;max-width:400px;margin:0 auto 28px;">Our Master Confectioner is preparing something special for the upcoming festival.</p>
+      <a href="products.html" class="btn-primary">Browse All Products <span class="arrow">→</span></a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="about">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Bhoop Singh Sweet House</div>
+        <p class="footer-desc">Founded by Shri Bhoop Singh, our aim is to preserve the authentic flavors of Indian sweets while maintaining the highest standards of purity and tradition.</p>
+        <div class="footer-socials">
+          <a href="#" title="Instagram" aria-label="Instagram">📸</a>
+          <a href="#" title="Facebook" aria-label="Facebook">👍</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="products.html">All Products</a></li>
+          <li><a href="festival.html">Festival Special</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Get in Touch</h5>
+        <div class="footer-contact-item"><span>✉️</span><span>contact@bhoopsingh.com</span></div>
+        <div class="footer-contact-item"><span>📞</span><span>+91-9840020900</span></div>
+        <div class="footer-contact-item"><span>📍</span><span>Ghal Mandi, Gurgaon, India</span></div>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <span>© Bhoop Singh Sweet House. Crafted with love.</span>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      initReveal();
+      initHeroAnimations();
+
+      // Load festival banner title from settings
+      try {
+        const { data: setting } = await supabaseClient.from('site_settings').select('value').eq('key', 'festival_banner').single();
+        if (setting?.value) document.getElementById('festival-banner-title').textContent = setting.value;
+      } catch (e) { /* table may not exist yet */ }
+
+      // Load festival-special products
+      const { data, error } = await supabaseClient.from('products')
+        .select('*')
+        .eq('is_available', true)
+        .eq('is_festival_special', true)
+        .order('created_at', { ascending: true });
+
+      const products = data || [];
+      renderFestivalProducts(products);
+    });
+
+    function getFromPrice(prices) {
+      if (!Array.isArray(prices) || !prices.length) return null;
+      return Math.min(...prices.map(p => Number(p.price)));
+    }
+
+    function renderFestivalProducts(products) {
+      const grid = document.getElementById('festival-products-grid');
+      const empty = document.getElementById('festival-empty');
+      if (!products.length) {
+        grid.innerHTML = '';
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display = 'none';
+      grid.innerHTML = products.map((p, i) => {
+        const from = getFromPrice(p.prices);
+        const priceStr = from ? `From ₹ ${from}` : 'Price on request';
+        return `
+        <div class="prod-card reveal delay-${(i % 4) + 1}" onclick="goProduct('${p.id}')" role="button" tabindex="0" aria-label="${p.name}">
+          <div class="prod-card-img-wrap">
+            <span class="prod-card-festival">🎉 ${p.festival_tag || 'Festival Special'}</span>
+            <img src="${p.image_url || getProductFallBackImg(p.name)}" onerror="this.src='${getProductFallBackImg(p.name)}'" alt="${p.name}" loading="lazy" />
+            <span class="prod-card-hover-icon">→</span>
+          </div>
+          <div class="prod-card-body">
+            ${p.category ? `<span class="prod-card-cat">${p.category}</span>` : ''}
+            <h3 class="prod-card-name">${p.name}</h3>
+            <p class="prod-card-desc">${(p.description || '').slice(0, 80)}${p.description && p.description.length > 80 ? '…' : ''}</p>
+            <div class="prod-card-footer">
+              <span class="prod-card-price">${priceStr}</span>
+              <button class="prod-card-btn" onclick="event.stopPropagation();goProduct('${p.id}')">View →</button>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+      document.querySelectorAll('.prod-card.reveal').forEach(el => revealObserver.observe(el));
+      document.querySelectorAll('.prod-card[role="button"]').forEach(el => {
+        el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); } });
+      });
+    }
+
+    // ── Smart profile icon ──
+    async function handleProfileNav(e) {
+      e.preventDefault();
+      try {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) { window.location.href = 'login.html'; return; }
+        const { data: p } = await supabaseClient.from('profiles').select('role').eq('id', session.user.id).single();
+        window.location.href = p?.role === 'admin' ? 'admin.html' : 'account.html';
+      } catch { window.location.href = 'login.html'; }
+    }
+  </script>
+</body>
+
+</html>

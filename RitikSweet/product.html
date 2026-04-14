@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kesar Malai Peda – Bhoop Singh Sweet House</title>
+    <meta name="description"
+        content="Kesar Malai Peda – a seasonal signature made from slow-reduced pure milk, hand-picked Kashmiri saffron, and green cardamom. Available in 250g, 500g, 1kg." />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="preloader-logo">🍬 BSSH</div>
+        <div class="preloader-bar">
+            <div class="preloader-bar-fill"></div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav id="navbar">
+        <button class="nav-back-btn" onclick="history.length > 1 ? history.back() : window.location.href='index.html'" title="Go back">← Back</button>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="festival.html">Festival Special</a></li>
+            <li><a href="account.html#orders" id="nav-orders">Orders</a></li>
+            <li><a href="#about">About Us</a></li>
+        </ul>
+        <a href="index.html" class="nav-brand">Bhoop Singh Sweet House</a>
+        <div style="display: flex; gap: 24px;">
+            <a href="#" id="nav-profile-btn" class="nav-icon user-icon" style="text-decoration: none;" title="Account" onclick="handleProfileNav(event)">👤</a>
+        </div>
+    </nav>
+
+    <!-- ── Product Hero ── -->
+    <div class="product-hero">
+
+        <!-- Left: Image -->
+        <div class="product-image-wrap reveal-left">
+            <img id="product-main-img" src="kesar_peda_1775999790945.png" alt="Kesar Malai Peda" />
+        </div>
+
+        <!-- Right: Details -->
+        <div class="product-details reveal-right">
+            <p class="product-eyebrow">Seasonal Signature</p>
+            <h1 class="product-title" id="product-name">Kesar Malai <em>Peda</em></h1>
+            <p class="product-desc" id="product-desc">
+                Our hallmark creation, crafted through hours of slow-reducing pure milk into rich khoya. Infused with
+                hand-picked Kashmiri saffron and a hint of cardamom, each piece is a testament to four generations of
+                patience.
+            </p>
+
+            <p class="quantities-title">Available Quantities</p>
+            <div class="quantity-options">
+                <div class="qty-row" onclick="selectQty(this, '250g', '₹ 210')" role="button" tabindex="0">
+                    <span class="qty-label">250 Grams</span>
+                    <span class="qty-price">₹ 210</span>
+                </div>
+                <div class="qty-row" onclick="selectQty(this, '500g', '₹ 400')" role="button" tabindex="0">
+                    <span class="qty-label">500 Grams</span>
+                    <span class="qty-price">₹ 400</span>
+                </div>
+                <div class="qty-row selected" onclick="selectQty(this, '1kg', '₹ 780')" role="button" tabindex="0">
+                    <span class="qty-label">1 Kilogram</span>
+                    <span class="qty-badge">Best Value</span>
+                    <span class="qty-price">₹ 780</span>
+                </div>
+            </div>
+
+            <div class="freshness-notice">
+                <span class="freshness-icon">📍</span>
+                <div class="freshness-text">
+                    <h5>Made Fresh Daily</h5>
+                    <p>Preservative-free. Best consumed within 5 days of purchase to experience the true texture of
+                        Peda.</p>
+                </div>
+            </div>
+
+            <div class="product-cta-row">
+                <button class="btn-primary" onclick="addToCart()" id="add-cart-btn">Add to Cart <span
+                        class="arrow">→</span></button>
+                <button class="btn-outline" onclick="orderWhatsApp()">📱 WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Info Cards ── -->
+    <div class="product-info-section">
+        <div class="info-card reveal delay-1">
+            <p class="info-card-label">Core Ingredients</p>
+            <p>Grass-fed Cow Milk, Organic Saffron, Green Cardamom, Cane Sugar.</p>
+        </div>
+        <div class="info-card reveal delay-2">
+            <p class="info-card-label">Our Craft</p>
+            <p>The secret lies in the 'Kadahi'—our heavy iron cauldrons that have been seasoned over decades. We don't
+                rush the milk; we wait for it to tell us when it's ready to become Peda.</p>
+        </div>
+    </div>
+
+    <!-- ── Similar Treasures ── -->
+    <section class="similar-section">
+        <div class="similar-header reveal">
+            <h2>Similar Treasures</h2>
+            <a href="index.html" class="similar-link">View All Menu →</a>
+        </div>
+
+        <div class="similar-grid">
+            <div class="similar-card reveal delay-1" onclick="goProduct('motichoor-ladoo')" role="button" tabindex="0">
+                <div class="similar-card-img">
+                    <img src="ladoo_motichoor_1775999772667.png" alt="Signature Kaju Katli" loading="lazy" />
+                </div>
+                <h4>Motichoor Ladoo</h4>
+                <p class="price-tag">₹ 320 per 500g</p>
+            </div>
+            <div class="similar-card reveal delay-2" onclick="goProduct('assorted-barfi')" role="button" tabindex="0">
+                <div class="similar-card-img">
+                    <img src="assorted_barfi_1775999808049.png" alt="Assorted Barfi" loading="lazy" />
+                </div>
+                <h4>Assorted Barfi</h4>
+                <p class="price-tag">₹ 380 per 500g</p>
+            </div>
+            <div class="similar-card reveal delay-3" onclick="goProduct('gulab-jamun')" role="button" tabindex="0">
+                <div class="similar-card-img">
+                    <img src="gulab_jamun_1775999830157.png" alt="Gulab Jamun" loading="lazy" />
+                </div>
+                <h4>Gulab Jamun</h4>
+                <p class="price-tag">₹ 280 per 500g</p>
+            </div>
+            <div class="similar-card reveal delay-4" onclick="goProduct('rasgulla')" role="button" tabindex="0">
+                <div class="similar-card-img">
+                    <img src="rasgulla_bowl_1775999846520.png" alt="Bengali Rasgulla" loading="lazy" />
+                </div>
+                <h4>Bengali Rasgulla</h4>
+                <p class="price-tag">₹ 250 per 500g</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="about">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-brand">Bhoop Singh Sweet House</div>
+                <p class="footer-desc">Preserving the essence of traditional Indian confectionery for over eighty years.
+                    Every bite is a journey through history.</p>
+                <div class="footer-socials">
+                    <a href="#" title="Instagram" aria-label="Instagram">📸</a>
+                    <a href="#" title="Facebook" aria-label="Facebook">👍</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h5>Navigation</h5>
+                <ul>
+                    <li><a href="#">About Owner</a></li>
+                    <li><a href="#">Our Aim</a></li>
+                    <li><a href="#">Quality Control</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Connect</h5>
+                <div class="footer-contact-item"><span>✉️</span><span>contact@bhoopsingh.com</span></div>
+                <div class="footer-contact-item"><span>📞</span><span>+91-9840020900</span></div>
+            </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-bottom">
+            <span>© Bhoop Singh Sweet House. Crafted with tradition.</span>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Use</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="supabase-config.js"></script>
+    <script src="script.js"></script>
+    <script>
+      async function handleProfileNav(e) {
+        e.preventDefault();
+        try {
+          const { data: { session } } = await supabaseClient.auth.getSession();
+          if (!session) { window.location.href = 'login.html'; return; }
+          const { data: p } = await supabaseClient.from('profiles').select('role').eq('id', session.user.id).single();
+          window.location.href = p?.role === 'admin' ? 'admin.html' : 'account.html';
+        } catch { window.location.href = 'login.html'; }
+      }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Products – Bhoop Singh Sweet House</title>
+  <meta name="description" content="Shop all handcrafted Indian sweets from Bhoop Singh Sweet House. Ladoo, Barfi, Peda, Gulab Jamun and more — made fresh daily since 1984." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="preloader-logo">🍬 BSSH</div>
+    <div class="preloader-bar">
+      <div class="preloader-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav id="navbar">
+    <button class="nav-back-btn" onclick="history.length > 1 ? history.back() : window.location.href='index.html'" title="Go back">← Back</button>
+    <ul class="nav-links" role="navigation">
+      <li id="nav-home-li"><a href="index.html" id="nav-home">Home</a></li>
+      <li><a href="products.html" class="active">Products</a></li>
+      <li><a href="festival.html">Festival Special</a></li>
+      <li><a href="account.html#orders" id="nav-orders">Orders</a></li>
+      <li><a href="#about" id="nav-about">About Us</a></li>
+    </ul>
+    <a href="index.html" class="nav-brand">Bhoop Singh Sweet House</a>
+    <div style="display:flex;gap:24px;position:relative;">
+      <a href="#" id="nav-profile-btn" class="nav-icon user-icon" style="text-decoration:none;" title="Account" onclick="handleProfileNav(event)">👤</a>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="section-label reveal">Our Complete Collection</p>
+      <h1 class="page-hero-title reveal delay-1">All <em>Products</em></h1>
+      <p class="page-hero-sub reveal delay-2">Handcrafted daily in small batches using heirloom recipes and the finest ingredients.</p>
+
+      <!-- Search bar -->
+      <div class="search-bar page-search-bar reveal delay-3" id="search-wrapper">
+        <input type="text" id="page-search" placeholder="Search sweets…" autocomplete="off" />
+        <button class="search-btn" aria-label="Search">🔍</button>
+        <div class="search-dropdown" id="search-dropdown"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <div class="filter-bar-inner">
+      <button class="filter-btn active" data-cat="all" onclick="filterProducts(this, 'all')">All Sweets</button>
+      <button class="filter-btn" data-cat="Ladoo" onclick="filterProducts(this, 'Ladoo')">🟡 Ladoo</button>
+      <button class="filter-btn" data-cat="Barfi" onclick="filterProducts(this, 'Barfi')">🍬 Barfi</button>
+      <button class="filter-btn" data-cat="Peda & Khoya" onclick="filterProducts(this, 'Peda & Khoya')">🟠 Peda & Khoya</button>
+      <button class="filter-btn" data-cat="Syrup Sweets" onclick="filterProducts(this, 'Syrup Sweets')">🫙 Syrup Sweets</button>
+      <button class="filter-btn" data-cat="Gift Box" onclick="filterProducts(this, 'Gift Box')">🎁 Gift Boxes</button>
+    </div>
+  </div>
+
+  <!-- Products Grid -->
+  <section class="all-products-section">
+    <div id="products-grid" class="all-products-grid">
+      <!-- Skeleton loaders -->
+      <div class="product-skeleton"></div>
+      <div class="product-skeleton"></div>
+      <div class="product-skeleton"></div>
+      <div class="product-skeleton"></div>
+      <div class="product-skeleton"></div>
+      <div class="product-skeleton"></div>
+    </div>
+    <p id="products-empty" style="display:none;text-align:center;padding:80px 24px;color:var(--text-muted);font-size:16px;">No products found in this category.<br><a href="#" onclick="filterProducts(document.querySelector('.filter-btn'),'all');return false;" style="color:var(--brown-mid);font-weight:600;">View all sweets →</a></p>
+  </section>
+
+  <!-- Footer -->
+  <footer id="about">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Bhoop Singh Sweet House</div>
+        <p class="footer-desc">Founded by Shri Bhoop Singh, our aim is to preserve the authentic flavors of Indian sweets while maintaining the highest standards of purity and tradition.</p>
+        <div class="footer-socials">
+          <a href="#" title="Instagram" aria-label="Instagram">📸</a>
+          <a href="#" title="Facebook" aria-label="Facebook">👍</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="products.html">All Products</a></li>
+          <li><a href="festival.html">Festival Special</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Get in Touch</h5>
+        <div class="footer-contact-item"><span>✉️</span><span>contact@bhoopsingh.com</span></div>
+        <div class="footer-contact-item"><span>📞</span><span>+91-9840020900</span></div>
+        <div class="footer-contact-item"><span>📍</span><span>Ghal Mandi, Gurgaon, India</span></div>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <span>© Bhoop Singh Sweet House. Crafted with love.</span>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="script.js"></script>
+  <script>
+    let allPageProducts = [];
+    let currentCategory = 'all';
+
+    // ── Boot ──
+    document.addEventListener('DOMContentLoaded', async () => {
+      initReveal();
+      initHeroAnimations();
+      const { data, error } = await supabaseClient.from('products').select('*').eq('is_available', true).order('created_at', { ascending: true });
+      allPageProducts = data || [];
+      renderProductsGrid(allPageProducts);
+      initPageSearch();
+    });
+
+    function getFromPrice(prices) {
+      if (!Array.isArray(prices) || !prices.length) return null;
+      return Math.min(...prices.map(p => Number(p.price)));
+    }
+
+    function renderProductsGrid(products) {
+      const grid = document.getElementById('products-grid');
+      const empty = document.getElementById('products-empty');
+      if (!products.length) {
+        grid.innerHTML = '';
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display = 'none';
+      grid.innerHTML = products.map((p, i) => {
+        const from = getFromPrice(p.prices);
+        const priceStr = from ? `From ₹ ${from}` : 'Price on request';
+        const festBadge = p.is_festival_special ? `<span class="prod-card-festival">🎉 ${p.festival_tag || 'Festival Special'}</span>` : '';
+        return `
+        <div class="prod-card reveal delay-${(i % 4) + 1}" onclick="goProduct('${p.id}')" role="button" tabindex="0" aria-label="${p.name}">
+          <div class="prod-card-img-wrap">
+            ${festBadge}
+            <img src="${p.image_url || getProductFallBackImg(p.name)}" onerror="this.src='${getProductFallBackImg(p.name)}'" alt="${p.name}" loading="lazy" />
+            <span class="prod-card-hover-icon">→</span>
+          </div>
+          <div class="prod-card-body">
+            ${p.category ? `<span class="prod-card-cat">${p.category}</span>` : ''}
+            <h3 class="prod-card-name">${p.name}</h3>
+            <p class="prod-card-desc">${(p.description || '').slice(0, 80)}${p.description && p.description.length > 80 ? '…' : ''}</p>
+            <div class="prod-card-footer">
+              <span class="prod-card-price">${priceStr}</span>
+              <button class="prod-card-btn" onclick="event.stopPropagation();goProduct('${p.id}')">View →</button>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+      // Re-observe new elements
+      document.querySelectorAll('.prod-card.reveal').forEach(el => revealObserver.observe(el));
+      // Keyboard nav
+      document.querySelectorAll('.prod-card[role="button"]').forEach(el => {
+        el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); } });
+      });
+    }
+
+    function filterProducts(btn, cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filtered = cat === 'all' ? allPageProducts : allPageProducts.filter(p => p.category === cat);
+      renderProductsGrid(filtered);
+    }
+
+    // ── Page-level live search ──
+    function initPageSearch() {
+      const input = document.getElementById('page-search');
+      const dropdown = document.getElementById('search-dropdown');
+      let timer;
+      input.addEventListener('input', () => {
+        clearTimeout(timer);
+        const q = input.value.trim();
+        if (!q) { dropdown.innerHTML = ''; dropdown.classList.remove('open'); return; }
+        timer = setTimeout(() => {
+          const results = allPageProducts.filter(p =>
+            p.name.toLowerCase().includes(q.toLowerCase()) ||
+            (p.category || '').toLowerCase().includes(q.toLowerCase()) ||
+            (p.eyebrow || '').toLowerCase().includes(q.toLowerCase())
+          );
+          renderDropdown(results, dropdown, input);
+        }, 200);
+      });
+      input.addEventListener('keydown', e => handleSearchKeys(e, dropdown));
+      document.addEventListener('click', e => { if (!e.target.closest('#search-wrapper')) { dropdown.classList.remove('open'); } });
+    }
+
+    function renderDropdown(results, dropdown, input) {
+      if (!results.length) {
+        dropdown.innerHTML = `<div class="search-no-results">No sweets found for "<strong>${input.value}</strong>"</div>`;
+        dropdown.classList.add('open');
+        return;
+      }
+      dropdown.innerHTML = results.slice(0, 6).map((p, i) => {
+        const from = getFromPrice(p.prices);
+        return `<div class="search-item" data-id="${p.id}" tabindex="-1" onclick="goProduct('${p.id}')">
+          <img src="${p.image_url || getProductFallBackImg(p.name)}" onerror="this.src='${getProductFallBackImg(p.name)}'" alt="${p.name}" class="search-item-img" />
+          <div class="search-item-info">
+            <span class="search-item-name">${p.name}</span>
+            ${p.category ? `<span class="search-item-cat">${p.category}</span>` : ''}
+          </div>
+          <span class="search-item-price">${from ? '₹' + from : ''}</span>
+        </div>`;
+      }).join('');
+      dropdown.classList.add('open');
+    }
+
+    function handleSearchKeys(e, dropdown) {
+      const items = dropdown.querySelectorAll('.search-item');
+      const active = dropdown.querySelector('.search-item.kbd-active');
+      let idx = Array.from(items).indexOf(active);
+      if (e.key === 'ArrowDown') { e.preventDefault(); idx = Math.min(idx + 1, items.length - 1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); idx = Math.max(idx - 1, 0); }
+      else if (e.key === 'Enter' && active) { active.click(); return; }
+      else if (e.key === 'Escape') { dropdown.classList.remove('open'); return; }
+      else return;
+      items.forEach(i => i.classList.remove('kbd-active'));
+      if (items[idx]) items[idx].classList.add('kbd-active');
+    }
+
+    // ── Smart profile icon ──
+    async function handleProfileNav(e) {
+      e.preventDefault();
+      try {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) { window.location.href = 'login.html'; return; }
+        const { data: p } = await supabaseClient.from('profiles').select('role').eq('id', session.user.id).single();
+        window.location.href = p?.role === 'admin' ? 'admin.html' : 'account.html';
+      } catch { window.location.href = 'login.html'; }
+    }
+  </script>
+</body>
+
+</html>

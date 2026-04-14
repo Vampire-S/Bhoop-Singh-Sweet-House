@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bhoop Singh Sweet House – Traditional Indian Mithai Since 1984</title>
+  <meta name="description"
+    content="Bhoop Singh Sweet House – Handcrafted Indian sweets made with heirloom recipes since 1984. Ladoo, Barfi, Gulab Jamun, and more from Gol Mandi, Gurgaon." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="preloader-logo">🍬 BSSH</div>
+    <div class="preloader-bar">
+      <div class="preloader-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav id="navbar">
+    <ul class="nav-links" role="navigation">
+      <!-- Home is hidden on home page -->
+      <li><a href="products.html">Products</a></li>
+      <li><a href="festival.html">Festival Special</a></li>
+      <li><a href="account.html#orders" id="nav-orders">Orders</a></li>
+      <li><a href="#about">About Us</a></li>
+    </ul>
+    <a href="index.html" class="nav-brand">Bhoop Singh Sweet House</a>
+    <div style="display: flex; gap: 24px; position:relative;">
+      <a href="#" id="nav-profile-btn" class="nav-icon user-icon" style="text-decoration: none;" title="Account" onclick="handleProfileNav(event)">👤</a>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <p class="hero-eyebrow reveal">Handcrafted Since 1984</p>
+    <h1 class="reveal delay-1">Bhoop Singh<br><span>Sweet House</span></h1>
+    <p class="hero-sub reveal delay-2">Since 1984 &nbsp;·&nbsp; Pure. Traditional. Timeless.</p>
+    <div class="search-bar reveal delay-3" id="search-wrapper" style="position:relative;">
+      <input type="text" id="hero-search" placeholder="Search for Ladoo, Barfi, or Peda…" autocomplete="off" />
+      <button class="search-btn" aria-label="Search" onclick="performSearch()">🔍</button>
+      <div class="search-dropdown" id="search-dropdown"></div>
+    </div>
+    <div class="scroll-hint">Scroll</div>
+  </section>
+
+  <!-- ── Products Section (Featured) ── -->
+  <section class="products-section reveal">
+    <div class="section-header">
+      <p class="section-label">Our Masterpieces</p>
+      <h2 class="section-title">A Symphony of Sweets</h2>
+    </div>
+    
+    <!-- Dynamically loaded featured products -->
+    <div class="all-products-grid" id="home-featured-products">
+      <!-- Skeletons while loading -->
+      <div class="product-skeleton"></div>
+      <div class="product-skeleton"></div>
+      <div class="product-skeleton"></div>
+      <div class="product-skeleton"></div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 48px;">
+      <a href="products.html" class="btn-primary">View Full Menu <span class="arrow">→</span></a>
+    </div>
+  </section>
+
+  <!-- ── Stats ── -->
+  <div class="stats-bar">
+    <div class="stat-item reveal delay-1">
+      <div class="number">40+</div>
+      <div class="label">Years of Legacy</div>
+    </div>
+    <div class="stat-item reveal delay-2">
+      <div class="number">60+</div>
+      <div class="label">Varieties of Mithai</div>
+    </div>
+    <div class="stat-item reveal delay-3">
+      <div class="number">1L+</div>
+      <div class="label">Happy Families</div>
+    </div>
+  </div>
+
+  <!-- ── Categories ── -->
+  <section class="categories-section">
+    <div class="section-header reveal">
+      <p class="section-label">Browse by Category</p>
+      <h2 class="section-title">Find Your Favourite</h2>
+    </div>
+    <div class="categories-grid">
+      <div class="category-card reveal delay-1" onclick="goProduct('motichoor-ladoo')">
+        <div class="category-icon">🟡</div>
+        <h4>Ladoo</h4>
+        <p>Motichoor, Besan, Boondi & more</p>
+      </div>
+      <div class="category-card reveal delay-2" onclick="goProduct('kesar-peda')">
+        <div class="category-icon">🟠</div>
+        <h4>Peda & Khoya</h4>
+        <p>Mathura, Kesar, Badam varieties</p>
+      </div>
+      <div class="category-card reveal delay-3" onclick="goProduct('assorted-barfi')">
+        <div class="category-icon">🍬</div>
+        <h4>Barfi</h4>
+        <p>Kaju, Milk, Coconut, Pista</p>
+      </div>
+      <div class="category-card reveal delay-4" onclick="goProduct('gulab-jamun')">
+        <div class="category-icon">🫙</div>
+        <h4>Syrup Sweets</h4>
+        <p>Gulab Jamun, Rasgulla, Jalebi</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Legacy Section ── -->
+  <section class="legacy-section">
+    <div class="legacy-image reveal-left">
+      <img src="gift_box_sweets_1775999865646.png" alt="Gift Box of Sweets" loading="lazy" />
+    </div>
+    <div class="legacy-content reveal-right">
+      <div class="badge">🏺 Our Legacy</div>
+      <h2>Crafting <em>Memories</em>,<br>One Sweet at a Time.</h2>
+      <p>For nearly four decades, Bhoop Singh Sweet House has been a cornerstone of local heritage. Every batch of our
+        mithai is handcrafted using heirloom recipes passed through generations, ensuring that every bite tastes exactly
+        like the nostalgia you cherish.</p>
+      <p>We use only pure ingredients — no preservatives, no artificial colours — because tradition demands nothing
+        less.</p>
+      <a href="products.html" class="btn-primary">View Full Menu <span class="arrow">→</span></a>
+    </div>
+  </section>
+
+  <!-- ── Testimonials ── -->
+  <section class="testimonials-section">
+    <div class="section-header reveal">
+      <p class="section-label">What Our Customers Say</p>
+      <h2 class="section-title">Loved Across Generations</h2>
+    </div>
+    <div class="testimonials-grid" id="testimonials-grid">
+      <!-- Dynamically loaded from DB or fallback to hardcoded -->
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer id="about">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Bhoop Singh Sweet House</div>
+        <p class="footer-desc">Founded by Shri Bhoop Singh, our aim is to preserve the authentic flavors of Indian
+          sweets while maintaining the highest standards of purity and tradition.</p>
+        <div class="footer-socials">
+          <a href="#" title="Instagram" aria-label="Instagram">📸</a>
+          <a href="#" title="Facebook" aria-label="Facebook">👍</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="#">Sweet Menu</a></li>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Heritage Recipes</a></li>
+          <li><a href="#">Bulk Orders</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Get in Touch</h5>
+        <div class="footer-contact-item"><span>✉️</span><span>contact@bhoopsingh.com</span></div>
+        <div class="footer-contact-item"><span>📞</span><span>+91-9840020900</span></div>
+        <div class="footer-contact-item"><span>📍</span><span>Ghal Mandi, Gurgaon, India</span></div>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <span>© Bhoop Singh Sweet House. Crafted with love.</span>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // ── Smart profile icon navigation ──
+    async function handleProfileNav(e) {
+      e.preventDefault();
+      try {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) { window.location.href = 'login.html'; return; }
+        const { data: p } = await supabaseClient.from('profiles').select('role').eq('id', session.user.id).single();
+        window.location.href = p?.role === 'admin' ? 'admin.html' : 'account.html';
+      } catch (err) {
+        window.location.href = 'login.html';
+      }
+    }
+
+    // ── Hero Live Search ──
+    function performSearch() {
+      const q = document.getElementById('hero-search').value.trim();
+      if (q) window.location.href = 'products.html?q=' + encodeURIComponent(q);
+      else window.location.href = 'products.html';
+    }
+
+    // Reveal animation
+    function reveal() {
+      var reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+      for (var i = 0; i < reveals.length; i++) {
+        var windowHeight = window.innerHeight;
+        var elementTop = reveals[i].getBoundingClientRect().top;
+        var elementVisible = 100;
+        if (elementTop < windowHeight - elementVisible) {
+          reveals[i].classList.add('active');
+        }
+      }
+    }
+    window.addEventListener('scroll', reveal);
+    reveal(); // run once on load
+
+    // Load Featured Products & Testimonials
+    document.addEventListener('DOMContentLoaded', async () => {
+      const input = document.getElementById('hero-search');
+      const dropdown = document.getElementById('search-dropdown');
+      let timer;
+
+      input.addEventListener('input', async () => {
+        clearTimeout(timer);
+        const q = input.value.trim();
+        if (!q) { dropdown.innerHTML = ''; dropdown.classList.remove('open'); return; }
+        timer = setTimeout(async () => {
+          const { data } = await supabaseClient.from('products').select('id,name,category,image_url,prices,eyebrow').eq('is_available', true).ilike('name', `%${q}%`).limit(6);
+          renderHeroDropdown(data || [], dropdown, input);
+        }, 300);
+      });
+
+      input.addEventListener('keydown', e => {
+        const items = dropdown.querySelectorAll('.search-item');
+        const active = dropdown.querySelector('.search-item.kbd-active');
+        let idx = Array.from(items).indexOf(active);
+        if (e.key === 'ArrowDown') { e.preventDefault(); idx = Math.min(idx + 1, items.length - 1); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); idx = Math.max(idx - 1, 0); }
+        else if (e.key === 'Enter') { if (active) { active.click(); return; } performSearch(); return; }
+        else if (e.key === 'Escape') { dropdown.classList.remove('open'); return; }
+        else return;
+        items.forEach(i => i.classList.remove('kbd-active'));
+        if (items[idx]) items[idx].classList.add('kbd-active');
+      });
+
+      document.addEventListener('click', e => {
+        if (!e.target.closest('#search-wrapper')) dropdown.classList.remove('open');
+      });
+
+      // Fetch 4 featured products
+      const { data: featuredProducts } = await supabaseClient
+          .from('products')
+          .select('*')
+          .eq('is_available', true)
+          .eq('is_featured', true)
+          .limit(4);
+
+      const featuredContainer = document.getElementById('home-featured-products');
+      if (featuredProducts && featuredProducts.length > 0) {
+          featuredContainer.innerHTML = featuredProducts.map(p => {
+              const prices = Array.isArray(p.prices) ? p.prices : [];
+              const fromPrice = prices.length ? '₹' + Math.min(...prices.map(t => Number(t.price))) : '—';
+              const festBadge = p.is_festival_special ? `<div class="prod-card-festival">🎉 FESTIVAL SPECIAL</div>` : '';
+              return `
+                <div class="prod-card" onclick="window.location.href='product.html?id=${p.id}'" role="button" tabindex="0">
+                  <div class="prod-card-img-wrap">
+                    ${festBadge}
+                    <img src="${p.image_url || 'gift_box_sweets_1775999865646.png'}" onerror="this.src='gift_box_sweets_1775999865646.png'" alt="${p.name}" loading="lazy">
+                    <div class="prod-card-hover-icon">→</div>
+                  </div>
+                  <div class="prod-card-body">
+                    <div class="prod-card-cat">${p.category || 'SWEETS'}</div>
+                    <h3 class="prod-card-name">${p.name}</h3>
+                    <div class="prod-card-desc">${(p.description || '').substring(0, 50)}...</div>
+                    <div class="prod-card-footer">
+                      <div class="prod-card-price"><span style="font-size:11px;color:#7a5c44;">from</span> ${fromPrice}</div>
+                      <button class="prod-card-btn">View Details</button>
+                    </div>
+                  </div>
+                </div>
+              `;
+          }).join('');
+      } else {
+          featuredContainer.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#7a5c44;">Featured treats coming soon.</p>';
+      }
+
+      // Fetch Testimonials
+      const { data: testimonials } = await supabaseClient
+          .from('testimonials')
+          .select('*')
+          .eq('is_visible', true)
+          .order('created_at', { ascending: false });
+          
+      const testGrid = document.getElementById('testimonials-grid');
+      if (testimonials && testimonials.length > 0) {
+          testGrid.innerHTML = testimonials.map((t, i) => `
+            <div class="testimonial-card reveal delay-${(i % 3) + 1}">
+              <div class="stars">${'★'.repeat(t.rating || 5)}${'☆'.repeat(5 - (t.rating || 5))}</div>
+              <blockquote>"${t.text}"</blockquote>
+              <div class="testimonial-author">
+                <div class="author-avatar">${t.avatar_emoji || '👨'}</div>
+                <div>
+                  <div class="author-name">${t.author_name}</div>
+                  <div class="author-city">${t.author_city || ''}</div>
+                </div>
+              </div>
+            </div>
+          `).join('');
+          // Trigger reveal for newly injected cards
+          reveal();
+      } else {
+          testGrid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#7a5c44;">Reviews coming soon.</p>';
+      }
+    });
+
+    function renderHeroDropdown(results, dropdown, input) {
+      if (!results.length) {
+        dropdown.innerHTML = `<div class="search-no-results">No sweets found for “<strong>${input.value}</strong>”</div>`;
+        dropdown.classList.add('open');
+        return;
+      }
+      dropdown.innerHTML = results.map(p => {
+        const prices = Array.isArray(p.prices) ? p.prices : [];
+        const from = prices.length ? Math.min(...prices.map(t => Number(t.price))) : null;
+        const fallback = (name => {
+          name = (name || '').toLowerCase();
+          if (name.includes('ladoo')) return 'ladoo_motichoor_1775999772667.png';
+          if (name.includes('barfi')) return 'assorted_barfi_1775999808049.png';
+          if (name.includes('peda')) return 'kesar_peda_1775999790945.png';
+          if (name.includes('gulab')) return 'gulab_jamun_1775999830157.png';
+          if (name.includes('rasgulla')) return 'rasgulla_bowl_1775999846520.png';
+          return 'gift_box_sweets_1775999865646.png';
+        })(p.name);
+        return `<div class="search-item" data-id="${p.id}" onclick="goProduct('${p.id}')">
+          <img src="${p.image_url || fallback}" onerror="this.src='${fallback}'" alt="${p.name}" class="search-item-img" />
+          <div class="search-item-info">
+            <span class="search-item-name">${p.name}</span>
+            ${p.category ? `<span class="search-item-cat">${p.category}</span>` : ''}
+          </div>
+          <span class="search-item-price">${from ? '₹' + from : ''}</span>
+        </div>`;
+      }).join('');
+      dropdown.classList.add('open');
+    }
+  </script>
+</body>
+
+</html>
