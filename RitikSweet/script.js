@@ -294,9 +294,38 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // ── Mobile Navigation ──
 function toggleMobileNav() {
-  const navLinks = document.querySelector('.nav-links');
-  if (!navLinks) return;
-  
+  let drawer = document.getElementById('mobile-drawer');
+  if (!drawer) {
+    drawer = document.createElement('div');
+    drawer.id = 'mobile-drawer';
+    drawer.className = 'mobile-drawer';
+    
+    // Using minimal SVGs for icons
+    const svgs = {
+      products: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>`,
+      festival: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.8 11.3 2 22l10.7-3.8"></path><path d="M4 3h.01"></path><path d="M22 8h.01"></path><path d="M15 2h.01"></path><path d="M22 20h.01"></path><path d="m22 2-2.2 2.2"></path><path d="m11 13 2.2-2.2"></path></svg>`,
+      orders: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"></path><path d="M14 3v5h5M16 13H8M16 17H8M10 9H8"></path></svg>`,
+      about: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`,
+      user: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`
+    };
+
+    drawer.innerHTML = `
+      <div class="md-header">Bhoop Singh Sweet House</div>
+      <ul class="md-links">
+        <li><a href="products.html"><span class="md-icon">${svgs.products}</span> PRODUCTS</a></li>
+        <li><a href="festival.html"><span class="md-icon">${svgs.festival}</span> FESTIVAL SPECIAL</a></li>
+        <li><a href="account.html#orders"><span class="md-icon">${svgs.orders}</span> ORDERS</a></li>
+        <li><a href="index.html#about"><span class="md-icon">${svgs.about}</span> ABOUT US</a></li>
+      </ul>
+      <div class="md-footer">
+        <p>Handcrafted Since 1984</p>
+        <hr>
+        <a href="account.html" class="md-account"><span class="md-icon">${svgs.user}</span> MY ACCOUNT</a>
+      </div>
+    `;
+    document.body.appendChild(drawer);
+  }
+
   let backdrop = document.querySelector('.mobile-nav-backdrop');
   if (!backdrop) {
     backdrop = document.createElement('div');
@@ -305,10 +334,21 @@ function toggleMobileNav() {
     document.body.appendChild(backdrop);
   }
   
-  const isOpen = navLinks.classList.toggle('open');
+  const isOpen = drawer.classList.toggle('open');
   if (isOpen) {
     backdrop.classList.add('open');
     document.body.style.overflow = 'hidden';
+    
+    // Highlight active
+    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+    drawer.querySelectorAll('.md-links a').forEach(a => {
+      const href = a.getAttribute('href').split('#')[0];
+      if (href && currentPath.includes(href) && href !== 'index.html') {
+        a.parentElement.classList.add('active');
+      } else {
+        a.parentElement.classList.remove('active');
+      }
+    });
   } else {
     backdrop.classList.remove('open');
     document.body.style.overflow = '';
